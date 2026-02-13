@@ -1,0 +1,11 @@
+{
+  "name": "unity-agentic-tools-claude-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Claude Code plugin for Unity YAML file tools",
+  "license": "Apache-2.0",
+  "scripts": {
+    "validate": "jq empty .claude-plugin/plugin.json && jq empty .claude-plugin/marketplace.json && jq empty hooks/hooks.json && echo 'All JSON valid'",
+    "check-hooks": "node -e \"const h=require('./hooks/hooks.json');const fs=require('fs');const path=require('path');let ok=true;for(const[,matchers]of Object.entries(h.hooks)){for(const m of matchers){for(const hook of m.hooks){const cmd=hook.command;const script=cmd.replace(/.*hooks\\//,'hooks/');if(!fs.existsSync(script)){console.error('Missing:',script);ok=false;}}}}if(ok)console.log('All hook scripts exist');else process.exit(1);\""
+  }
+}
