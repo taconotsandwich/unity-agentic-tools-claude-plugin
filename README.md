@@ -4,25 +4,40 @@ A Claude Code plugin that integrates the [unity-agentic-tools](https://github.co
 
 ## Prerequisites
 
-The `unity-agentic-tools` CLI must be installed globally:
+Install the `unity-agentic-tools` CLI from source:
 
 ```bash
-npm install -g unity-agentic-tools
+git clone https://github.com/taconotsandwich/unity-agentic-tools.git
+cd unity-agentic-tools
+bun install
+bun run build
+cd unity-agentic-tools && npm link
+```
+
+Verify installation:
+```bash
+unity-agentic-tools --version
 ```
 
 ## Installation
 
-### From Marketplace (in Claude Code)
+### From GitHub
 
 ```bash
-/plugin install unity-agentic-tools
+claude plugin add github:taconotsandwich/unity-agentic-tools-claude-plugin
 ```
 
-### From Source
+### From Local Clone
 
 ```bash
-git clone https://github.com/taconotsandwich/unity-agentic-tools-claude-plugin.git
-# Then add the plugin directory in Claude Code settings
+git clone git@github.com:taconotsandwich/unity-agentic-tools-claude-plugin.git
+claude plugin add ./unity-agentic-tools-claude-plugin
+```
+
+### For Development
+
+```bash
+claude --plugin-dir ./unity-agentic-tools-claude-plugin
 ```
 
 ## What This Plugin Does
@@ -42,19 +57,14 @@ git clone https://github.com/taconotsandwich/unity-agentic-tools-claude-plugin.g
 
 The `unity-agentic-tools` skill provides a complete CLI reference covering CRUD operations on Unity files: reading scenes/GameObjects, creating objects/components, updating properties/transforms, deleting elements, and project-wide search.
 
-## Version Compatibility
-
-| Plugin Version | Minimum CLI Version |
-|---------------|-------------------|
-| 0.1.0 | 0.1.0 |
-
 ## Development
 
 ```bash
-# Validate all JSON configs
-jq empty .claude-plugin/plugin.json
-jq empty .claude-plugin/marketplace.json
-jq empty hooks/hooks.json
+# Validate plugin structure
+claude plugin validate .
+
+# Test plugin during development
+claude --plugin-dir .
 
 # Test hooks manually
 echo '{"context":""}' | bun hooks/auto_setup.js
