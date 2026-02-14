@@ -19,15 +19,15 @@ jobs:
 
       - name: Validate JSON syntax
         run: |
-          jq empty .claude-plugin/plugin.json
           jq empty .claude-plugin/marketplace.json
-          jq empty hooks/hooks.json
+          jq empty plugins/unity-agentic-tools/.claude-plugin/plugin.json
+          jq empty plugins/unity-agentic-tools/hooks/hooks.json
           echo "All JSON files are valid"
 
       - name: Check required fields in plugin.json
         run: |
-          NAME=$(jq -r '.name' .claude-plugin/plugin.json)
-          VERSION=$(jq -r '.version' .claude-plugin/plugin.json)
+          NAME=$(jq -r '.name' plugins/unity-agentic-tools/.claude-plugin/plugin.json)
+          VERSION=$(jq -r '.version' plugins/unity-agentic-tools/.claude-plugin/plugin.json)
           if [ "$NAME" = "null" ] || [ -z "$NAME" ]; then
             echo "ERROR: plugin.json missing 'name' field"
             exit 1
@@ -41,7 +41,7 @@ jobs:
       - name: Verify hook scripts exist
         run: |
           MISSING=0
-          for script in hooks/auto_setup.js hooks/detect_unity.js hooks/pre_unity_validate.js hooks/post_unity_verify.js hooks/unity_context_inject.js hooks/unity_docs_index.js; do
+          for script in plugins/unity-agentic-tools/hooks/auto_setup.js plugins/unity-agentic-tools/hooks/detect_unity.js plugins/unity-agentic-tools/hooks/pre_unity_validate.js plugins/unity-agentic-tools/hooks/post_unity_verify.js plugins/unity-agentic-tools/hooks/unity_context_inject.js plugins/unity-agentic-tools/hooks/unity_docs_index.js; do
             if [ ! -f "$script" ]; then
               echo "ERROR: Missing hook script: $script"
               MISSING=1
